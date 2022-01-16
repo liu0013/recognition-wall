@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package api.feedback.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "recognition-wall/api/feedback/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.feedback.v1";
+
+service FeedbackService {
+    rpc CreateFeedback (CreateFeedbackRequest) returns (CreateFeedbackReply) {
+        option (google.api.http) = {
+            post: "/v1/feedback/"
+            body: "*"
+        };
+    }
+    rpc UpdateFeedback (UpdateFeedbackRequest) returns (UpdateFeedbackReply) {
+        option (google.api.http) = {
+            put: "/v1/feedback/{id}"
+            body: "*"
+        };
+    }
+    rpc DeleteFeedback (DeleteFeedbackRequest) returns (DeleteFeedbackReply) {
+        option (google.api.http) = {
+            delete: "/v1/feedback/{id}"
+        };
+    }
+    rpc GetFeedback (GetFeedbackRequest) returns (GetFeedbackReply) {
+        option (google.api.http) = {
+            get: "/v1/feedback/{id}"
+        };
+    }
+    rpc ListFeedback (ListFeedbackRequest) returns (ListFeedbackReply) {
+        option (google.api.http) = {
+            get: "/v1/feedback/"
+        };
+    }
+    rpc Like (LikeRequest) returns (LikeReply) {
+        option (google.api.http) = {
+            put: "/v1/feedback/{id}/like"
+            body: "*"
+        };
+    }
+}
+
+message Feedback {
+  int64 id = 1;
+  string name = 2;
+  string content = 3;
+  int32 like = 4;
+
+}
+
+message CreateFeedbackRequest {
+    string name = 1 [(validate.rules).string = {min_len: 5, max_len: 50}]; 
+    string content = 2;
+}
+
+message CreateFeedbackReply {
+    Feedback Feedback = 1;
+}
+
+message UpdateFeedbackRequest {
+    int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+    string name = 2 [(validate.rules).string = {min_len: 5, max_len: 50}]; 
+    string content = 3;
+}
+
+message UpdateFeedbackReply {
+    Feedback Feedback = 1;
+}
+
+message DeleteFeedbackRequest {
+    int64 id = 1;
+}
+
+message DeleteFeedbackReply {
+}
+
+message GetFeedbackRequest {
+    int64 id = 1;
+}
+
+message GetFeedbackReply {
+    Feedback Feedback = 1;
+}
+
+message ListFeedbackRequest {
+}
+
+message ListFeedbackReply {
+    repeated Feedback results = 1;
+}
+
+message LikeRequest {
+    int64 id = 1;
+    bool unlike = 2;
+}
+
+message LikeReply {
+}

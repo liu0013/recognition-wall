@@ -1,0 +1,193 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/apps/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: FeedbackService API
+    version: 0.0.1
+paths:
+    /v1/feedback/:
+        get:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_ListFeedback
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListFeedbackReply'
+        post:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_CreateFeedback
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateFeedbackRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateFeedbackReply'
+    /v1/feedback/{id}:
+        get:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_GetFeedback
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetFeedbackReply'
+        put:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_UpdateFeedback
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateFeedbackRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateFeedbackReply'
+        delete:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_DeleteFeedback
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteFeedbackReply'
+    /v1/feedback/{id}/like:
+        put:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_Like
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LikeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LikeReply'
+components:
+    schemas:
+        CreateFeedbackReply:
+            type: object
+            properties:
+                Feedback:
+                    $ref: '#/components/schemas/Feedback'
+        CreateFeedbackRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                content:
+                    type: string
+        DeleteFeedbackReply:
+            type: object
+            properties: {}
+        Feedback:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                content:
+                    type: string
+                like:
+                    type: integer
+                    format: int32
+        GetFeedbackReply:
+            type: object
+            properties:
+                Feedback:
+                    $ref: '#/components/schemas/Feedback'
+        LikeReply:
+            type: object
+            properties: {}
+        LikeRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                unlike:
+                    type: boolean
+        ListFeedbackReply:
+            type: object
+            properties:
+                results:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Feedback'
+        UpdateFeedbackReply:
+            type: object
+            properties:
+                Feedback:
+                    $ref: '#/components/schemas/Feedback'
+        UpdateFeedbackRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                content:
+                    type: string
+tags:
+    - name: FeedbackService
